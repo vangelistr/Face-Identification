@@ -1,1 +1,81 @@
+absl-py @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_e3w1nvit39/croot/absl-py_1714140475537/work
+astunparse==1.6.3
+beautifulsoup4==4.13.3
+Bottleneck @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_55txi4fy1u/croot/bottleneck_1731058642212/work
+certifi==2025.1.31
+charset-normalizer==3.4.1
+click==8.1.8
+contourpy==1.3.1
+cycler==0.12.1
+dlib==19.24.6
+face-recognition==1.3.0
+face_recognition_models==0.3.0
+filelock==3.17.0
+flatbuffers==25.1.24
+fonttools==4.56.0
+frozendict==2.4.6
+fsspec==2025.2.0
+gast==0.6.0
+gensim @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_5cdoei19at/croot/gensim_1725057952958/work
+google-pasta==0.2.0
+grpcio==1.70.0
+h5py @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_041r1kgv8p/croot/h5py_1737051128943/work
+idna==3.10
+Jinja2==3.1.5
+joblib==1.4.2
+keras==3.8.0
+keras-facenet==0.3.2
+kiwisolver==1.4.8
+libclang==18.1.1
+lz4==4.4.3
+Markdown==3.7
+markdown-it-py @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_43l_4ajkho/croot/markdown-it-py_1684279912406/work
+MarkupSafe==3.0.2
+matplotlib==3.10.0
+mdurl @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_0a8xm6w4wv/croots/recipe/mdurl_1659716035810/work
+ml-dtypes==0.4.1
+mpmath==1.3.0
+mtcnn==1.0.0
+multitasking==0.0.11
+namex @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_aac1cmw2z4/croot/namex_1715206944707/work
+networkx==3.4.2
+numexpr @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_b3kvvt6tc6/croot/numexpr_1730215947700/work
+numpy==2.0.2
 opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
+opt_einsum==3.4.0
+optree @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_40lsmzm7uv/croot/optree_1723069485418/work
+packaging @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_a6_qk3qyg7/croot/packaging_1734472142254/work
+pandas @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4aifrweohv/croot/pandas_1732735109535/work/dist/pandas-2.2.3-cp310-cp310-macosx_11_0_arm64.whl#sha256=6c5bbde94d3ac89a919939bdecfabca704888cdaf6251a6b101db7024fed27ab
+peewee==3.17.9
+pillow==11.1.0
+platformdirs==4.3.6
+protobuf==5.29.3
+Pygments @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_29bs9f_dh9/croot/pygments_1684279974747/work
+pyparsing==3.2.1
+python-dateutil @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_66ud1l42_h/croot/python-dateutil_1716495741162/work
+pytz @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_a4b76c83ik/croot/pytz_1713974318928/work
+requests==2.32.3
+rich @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_034myiu7pr/croot/rich_1732638981241/work
+scikit-learn==1.6.1
+scipy==1.15.1
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+smart-open @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_12ff6ece-d716-4aec-a1e2-7bfc8de4f98e1d6t5p6v/croots/recipe/smart_open_1651563555507/work
+soupsieve==2.6
+sympy==1.13.1
+tensorboard==2.18.0
+tensorboard-data-server==0.7.2
+tensorflow==2.18.0
+tensorflow-io-gcs-filesystem==0.37.1
+termcolor==2.5.0
+threadpoolctl==3.5.0
+torch==2.6.0
+torchaudio==2.6.0
+torchvision==0.21.0
+tqdm==4.67.1
+typing_extensions @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_0b3jpv_f79/croot/typing_extensions_1734714864260/work
+tzdata @ file:///croot/python-tzdata_1690578112552/work
+urllib3==2.3.0
+Werkzeug==3.1.3
+wrapt==1.17.2
+yfinance==0.2.54
