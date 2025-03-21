@@ -5,6 +5,16 @@ from keras_facenet import FaceNet
 
 embedder = FaceNet()
 
+def augment_image(image):
+    return [
+        image,  # Original image
+        cv2.flip(image, 1),  # Horizontal Flip
+        cv2.convertScaleAbs(image, alpha=np.random.uniform(0.8, 1.2), beta=np.random.randint(-30, 30)),  # Brightness
+        cv2.warpAffine(image,
+                       cv2.getRotationMatrix2D((image.shape[1] // 2, image.shape[0] // 2), np.random.uniform(-15, 15),
+                                               1), (image.shape[1], image.shape[0]))  # Rotation
+    ]
+
 def load_images_from_folder(folder_path):
     images = []
     for filename in os.listdir(folder_path):
@@ -17,7 +27,9 @@ def load_images_from_folder(folder_path):
 
         #Converting from BGR to RGB
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        images.append(image)
+        augmented_images = augment_image(image)
+        images.extend(augmented_images)
+
     return images
 
 def detect_faces(images):
