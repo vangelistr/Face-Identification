@@ -48,22 +48,17 @@ def detect_faces(images):
 
     return embedded_images
 
-def extract_mean_embeddings(images):
+def extract_embeddings(faces):
     embeddings = []
 
-    for image in images:
-        if image is None or image.size == 0:  # Αν η εικόνα είναι άδεια, αγνόησέ την
+    for face in faces:
+        if face is None or face.size == 0:
             continue
 
-        embedding = embedder.embeddings([image])[0]
+        embedding = embedder.embeddings([face])[0]
         embeddings.append(embedding)
 
-    if len(embeddings) == 0:
-        return None
-
-    mean_embedding = np.mean(embeddings, axis=0)
-    return mean_embedding
-
+    return embeddings if embeddings else None
 
 person = "Vangelis Triantafyllou"
 dataset_path = f"../data/raw/{person}/"
@@ -73,18 +68,22 @@ if os.path.exists(dataset_path):
     images = load_images_from_folder(dataset_path)
     print(f"The images from the folder {dataset_path} are loaded. Number of photos: {len(images)}")
 
+    # Αντικαθιστούμε το mean_embeddings με embeddings
     faces = detect_faces(images)
-    mean_embeddings = extract_mean_embeddings(faces)
+    print(f"Detected faces: {len(faces)}")
+    embeddings = extract_embeddings(faces)  # Νέα συνάρτηση που επιστρέφει όλα τα embeddings
 
     save_dir = os.path.join("../data/embeddings", person)
     print(f"Trying to create folder: {os.path.abspath(save_dir)}")
 
     try:
         os.makedirs(save_dir, exist_ok=True)  # Δημιουργία φακέλου αν δεν υπάρχει
-        save_path = os.path.join(save_dir, f"{person}.npy")  # Σωστό path για το αρχείο
-        if mean_embeddings is not None:
-            np.save(save_path, mean_embeddings)
-            print(f"The embedding was saved at {save_path}")
+
+        if embeddings is not None:
+            for idx, embedding in enumerate(embeddings):
+                save_path = os.path.join(save_dir, f"img_{idx + 1}.npy")  # Αποθήκευση κάθε embedding ξεχωριστά
+                np.save(save_path, embedding)
+                print(f"Saved embedding: {save_path}")
 
     except Exception as e:
         print(f"Error creating folder: {e}")
