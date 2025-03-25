@@ -50,6 +50,6 @@ def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.ab
     cv2.destroyAllWindows()
     print(f"Captured {count} new photos for {person_name}.")
 
-# if __name__ == "__main__":
-#     person_name = input("Enter person's name: ")
-#     capture_photos(person_name)
+if __name__ == "__main__":
+    person_name = input("Enter person's name: ")
+    capture_photos(person_name)
