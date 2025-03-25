@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 import joblib  #Model Saving
 
 def load_embeddings():
-    embeddings_dir = "../data/embeddings/"
+    embeddings_dir = "../../data/embeddings/"
     X, y = [], []
 
     for person in os.listdir(embeddings_dir):  # Διατρέχουμε τους φακέλους (ονόματα ατόμων)

@@ -1,7 +1,7 @@
 import cv2
 import os
 
-def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data/raw"), num_photos=10):
+def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/raw"), num_photos=10):
     person_dir = os.path.join(save_dir, person_name)
     print(f"Trying to create the folder: {os.path.abspath(person_dir)}")
     try:

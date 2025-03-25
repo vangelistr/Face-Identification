@@ -60,8 +60,8 @@ def extract_embeddings(faces):
 
     return embeddings if embeddings else None
 
-person = "Vangelis Triantafyllou"
-dataset_path = f"../data/raw/{person}/"
+person = input("Enter Name: ")
+dataset_path = f"../../data/raw/{person}/"
 
 if os.path.exists(dataset_path):
 
@@ -73,7 +73,7 @@ if os.path.exists(dataset_path):
     print(f"Detected faces: {len(faces)}")
     embeddings = extract_embeddings(faces)  # Νέα συνάρτηση που επιστρέφει όλα τα embeddings
 
-    save_dir = os.path.join("../data/embeddings", person)
+    save_dir = os.path.join("../../data/embeddings", person)
     print(f"Trying to create folder: {os.path.abspath(save_dir)}")
 
     try:
