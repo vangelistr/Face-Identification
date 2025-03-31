@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 import joblib
 from keras_facenet import FaceNet
 from sklearn.preprocessing import normalize
