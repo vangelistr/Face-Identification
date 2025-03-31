@@ -1,9 +1,9 @@
 import os
 import numpy as np
-from PIL.GimpGradientFile import linear
 from sklearn.svm import SVC #Classifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.preprocessing import normalize
 import joblib  #Model Saving
 
 def load_embeddings():
@@ -24,13 +24,41 @@ def load_embeddings():
 
     return np.array(X), np.array(y)
 
-X, y = load_embeddings()
+def train_svm_model():
+    X, y = load_embeddings()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    if len(X) == 0 or len(y) == 0:
+        raise ValueError("Error: No embeddings found! Make sure you have run the data preprocessing step.")
 
-model = SVC(kernel="linear", probability=True)
-model.fit(X_train, y_train)
+    X = normalize(X)
 
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Model accuracy: {accuracy: .2f}")
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, stratify=y, random_state=42)
+
+    param_grid = {
+        "C": [0.1, 1, 10, 100],  # Regularization parameter
+        "kernel": ["linear", "rbf"]  # Linear ή Gaussian SVM
+    }
+
+    grid_search = GridSearchCV(SVC(probability=True), param_grid, cv=5, scoring="accuracy", n_jobs=-1)
+    grid_search.fit(X_train, y_train)
+
+    # Επιλογή του καλύτερου μοντέλου
+    model = grid_search.best_estimator_
+    print(f"Best SVM model: C={grid_search.best_params_['C']}, Kernel={grid_search.best_params_['kernel']}")
+
+    y_pred = model.predict(X_test)
+    print("Classification Report:\n", classification_report(y_test, y_pred))
+    print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+    models_dir = "../../models/"
+    os.makedirs(models_dir, exist_ok=True)
+
+    model_path = os.path.join(models_dir, "face_recognition_svc.pkl")
+    print(f"Trying to save model to: {os.path.abspath(models_dir)}")
+    try:
+        joblib.dump(model, model_path)
+        print(f"Model saved at: {model_path}")
+    except Exception as e:
+        print(f"Error saving model: {e}")
+
+train_svm_model()

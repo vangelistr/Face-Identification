@@ -1,7 +1,7 @@
 import cv2
 import os
 
-def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/raw"), num_photos=10):
+def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/raw"), num_photos=50 ):
     person_dir = os.path.join(save_dir, person_name)
     print(f"Trying to create the folder: {os.path.abspath(person_dir)}")
     try:
@@ -12,7 +12,9 @@ def capture_photos(person_name, save_dir=os.path.join(os.path.dirname(os.path.ab
 
     # Υπολογίζει το επόμενο διαθέσιμο όνομα αρχείου
     existing_files = [f for f in os.listdir(person_dir) if f.endswith(".jpg")]
-    existing_files.sort()  # Ταξινόμηση των αρχείων για εύρεση του τελευταίου αριθμού
+    print(f"Existing files: {existing_files}")
+    existing_files.sort(key=lambda x: int(x.replace("img", "").replace(".jpg","")))  # Ταξινόμηση των αρχείων για εύρεση του τελευταίου αριθμού
+    print(f"Existing files: {existing_files}")
     next_index = 1
 
     if existing_files:
