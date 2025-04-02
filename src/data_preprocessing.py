@@ -2,8 +2,14 @@ import cv2
 import os
 import numpy as np
 from keras_facenet import FaceNet
+from utils import ensure_directory_exists
+from concurrent.futures import ThreadPoolExecutor
 
 embedder = FaceNet()
+
+embeddings_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/embeddings")
+
+ensure_directory_exists(embeddings_dir)
 
 def augment_image(image):
     augs = [image]  # Original Image
@@ -12,8 +18,8 @@ def augment_image(image):
     augs.append(cv2.flip(image, 1))
 
     # Brightness Adjustment
-    alpha = np.random.uniform(0.7, 1.3)
-    beta = np.random.randint(-30, 30)
+    alpha = np.random.uniform(0.7, 1.3) #Random Brightness
+    beta = np.random.randint(-30, 30) #Add/Reduce Brightness
     bright = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
     augs.append(bright)
 
@@ -40,14 +46,14 @@ def augment_image(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
     hsv = hsv.astype(np.float32)
     # Adjust Saturation & Value
-    hsv[..., 1] *= np.random.uniform(0.7, 1.3)
+    hsv[..., 1] *= np.random.uniform(0.7, 1.3) #Saturation
     hsv[..., 2] *= np.random.uniform(0.7, 1.3)
     hsv = np.clip(hsv, 0, 255)
     hsv = hsv.astype(np.uint8)
     color_jittered = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
     augs.append(color_jittered)
 
-    # Gaussian Noise
+    # Gaussian Noise / Random noise
     noise = np.random.normal(0, np.random.uniform(0, 15), image.shape).astype(np.int16)
     noisy_image = cv2.add(image.astype(np.int16), noise)
     noisy_image = np.clip(noisy_image, 0, 255).astype(np.uint8)
@@ -86,10 +92,19 @@ def detect_faces(images):
     embedded_images = []
 
     for image in images:
-        detections = embedder.extract(image, threshold=0.75)  # Face detection
+        """
+        The extract method returns a dictionary with the following keys:
+        
+        - "box": Coordinates of the detected face in the image. It is a tuple (x1, y1, x2, y2), where (x1, y1) is the top-left corner of the bounding box, and (x2, y2) is the bottom-right corner.
+        - "confidence": The confidence score of the detection, which represents the likelihood that the detected object is indeed a face.
+        - "embedding": A vector representing the facial features of the detected face.
+        
+        Each detection represents a face, and you can access the bounding box to crop the face from the original image.
+        """
+        detections = embedder.extract(image, threshold=0.75)  # Face detection with threshold 75%
         for det in detections:
-            x1, y1, x2, y2 = det["box"]
-            face = image[y1:y2, x1:x2]
+            x1, y1, x2, y2 = det["box"] #(x1, y1): Upper left| (x2,y2): Bottom right
+            face = image[y1:y2, x1:x2] #Image Cropping from the original image
 
             if face.size == 0:
                 continue
@@ -98,17 +113,13 @@ def detect_faces(images):
 
     return embedded_images
 
-def extract_embeddings(faces):
-    embeddings = []
+def process_face(face, embedder):
+    return embedder.embeddings([face])[0] if face is not None and face.size != 0 else None #It returns a 3-dimensional array| (806 height, 602 width, 3 Color Channels)
 
-    for face in faces:
-        if face is None or face.size == 0:
-            continue
-
-        embedding = embedder.embeddings([face])[0]
-        embeddings.append(embedding)
-
-    return embeddings if embeddings else None
+def extract_embeddings(faces, embedder):
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        embeddings = list(executor.map(lambda face: process_face(face, embedder), faces))
+    return [emb for emb in embeddings if emb is not None]
 
 person = input("Enter Name: ")
 dataset_path = f"../../data/raw/{person}/"
@@ -120,9 +131,9 @@ if os.path.exists(dataset_path):
 
     faces = detect_faces(images)
     print(f"Detected faces: {len(faces)}")
-    embeddings = extract_embeddings(faces)  # Νέα συνάρτηση που επιστρέφει όλα τα embeddings
+    embeddings = extract_embeddings(faces, embedder)  # Νέα συνάρτηση που επιστρέφει όλα τα embeddings
 
-    save_dir = os.path.join("../../data/embeddings", person)
+    save_dir = os.path.join(embeddings_dir, person)
     print(f"Trying to create folder: {os.path.abspath(save_dir)}")
 
     try:

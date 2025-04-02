@@ -1,10 +1,16 @@
 import os
 import numpy as np
+from scipy.linalg import fractional_matrix_power
 from sklearn.svm import SVC #Classifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.preprocessing import normalize
 import joblib  #Model Saving
+from utils import ensure_directory_exists
+
+models_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../models")
+
+ensure_directory_exists(models_dir)
 
 def load_embeddings():
     embeddings_dir = "../../data/embeddings/"
@@ -49,9 +55,6 @@ def train_svm_model():
     y_pred = model.predict(X_test)
     print("Classification Report:\n", classification_report(y_test, y_pred))
     print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-
-    models_dir = "../../models/"
-    os.makedirs(models_dir, exist_ok=True)
 
     model_path = os.path.join(models_dir, "face_recognition_svc.pkl")
     print(f"Trying to save model to: {os.path.abspath(models_dir)}")
