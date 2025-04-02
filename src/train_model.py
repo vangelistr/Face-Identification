@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from scipy.linalg import fractional_matrix_power
 from sklearn.svm import SVC #Classifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
